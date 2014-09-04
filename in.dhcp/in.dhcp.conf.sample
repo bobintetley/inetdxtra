@@ -1,0 +1,176 @@
+# in.dhcp sample config file. This shows ALL available options.
+
+# Fixed leases have to come first as the first declaration of
+# an option is the one sent
+
+# Simple fixed lease host
+01:1d:7e:b0:26:82 {
+    hostname        boxy
+    address         192.168.0.1
+}
+
+# Netboot host
+00:0d:fe:23:79:e0 {
+    hostname        netboot-guy
+    address         192.168.0.3
+    next-server     192.168.0.1
+    filename        dongle.bin
+}
+
+# === Global options applicable to all hosts (commonly used options) ===
+
+# "This" server's IP address - mandatory
+server-identifier       192.168.0.1
+
+# Time in seconds before clients should renew
+lease-time              7200
+
+# DNS servers (whitespace separate multiple servers)
+domain-servers          192.168.0.1    192.168.0.128
+
+# Domain name suffix sent to clients to search
+domain-name             yourdomain.com
+
+# Default gw
+routers                 192.168.0.128
+
+# NTP time servers
+ntp-servers             192.168.0.1
+
+# The pool of consecutive addresses available for clients
+pool-start              192.168.0.16
+pool-end                192.168.0.32
+subnet-mask             255.255.255.0
+broadcast-address       192.168.0.255
+
+
+
+# === Lesser used DHCP options ===
+# These are (in my experience) much less used than the DHCP
+# options above, but they are also implemented by in.dhcp
+
+# UTC time offset of subnet in seconds
+time-offset             3600
+
+# RFC868 time servers
+time-servers            192.168.0.1
+
+# IEN 116 Name servers
+name-servers            192.168.0.1     192.168.0.128
+
+# MIT-LCS UDP log servers
+log-servers             192.168.0.1
+
+# RFC 865 Cookie servers
+cookie-servers          192.168.0.1
+
+# LPR servers
+lpr-servers             192.168.0.1
+
+# Imagen Impress servers
+impress-servers         192.168.0.1
+
+# Resource Location servers RFC 887
+resource-location-servers       192.168.0.1
+
+# Size of bootfile in 512-octet blocks
+bootfile-size           6000
+
+# Merit dump file for crashing clients
+merit-dump-file         core.dump
+
+# Swap server
+swap-server             192.168.0.1
+
+# Root path (client disk image name)
+root-path               dongle.bin
+
+# Extensions path (tftp file with more DHCP options)
+extension-path          dhcp.extra
+
+# Enable client ip-forwarding (0 = no, 1 = yes)
+ip-forwarding           1
+
+# Enable client non-source route datagram forwarding
+datagram-forwarding     1
+
+# Policy filter
+policy-filter           192.168.0.1
+
+# Maximum datagram reassembly size in bytes (min 576)
+maximum-datagram-reassembly     576
+
+# Default TTL for UDP packets
+default-udp-ttl         255
+
+# Path MTU aging timeout (RFC 1191)
+path-mtu-aging-timeout  10
+path-mtu-plateau        16
+
+# MTU for the client's interface
+mtu                     1500
+
+# Whether subnets use the same MTU (0/1)
+subnets-are-local       1
+
+# Whether to use ARP trailers
+trailer-encapsulation   1
+
+# Timeout in seconds for ARP cache entries
+arp-cache-timeout       1000
+
+# Interval to generate TCP keepalive messages
+# (or 0 for no keepalives)
+tcp-keepalive           60
+
+# Whether keepalives should be sent with an octect of
+# garbage for compatibility with older implementations
+keepalive-garbage       1
+
+# Whether to use ICMP to have the client figure out the 
+# subnet mask
+perform-mask-discovery  1
+
+# Whether client should respond to subnet mask requests
+# using ICMP
+mask-supplier           1
+
+# Whether to perform router discovery using RFC1256
+router-discovery        1
+
+# router solicitation address to transmit requests to
+router-solicitation     192.168.0.1
+
+# Static routes (subnet, router)
+static-route            10.5.0.0        192.168.0.128
+static-route            172.20.0.0      192.168.0.128
+
+# Ethernet encapsulation type:
+# 0 = RFC894, 1 = RFC1042
+ethernet-encapsulation  1
+
+# Default TTL for TCP packets
+default-tcp-ttl         255
+
+# NIS domain and servers
+nis-domain              mydomain
+nis-servers             192.168.0.1     192.168.0.128
+
+# NetBIOS over TCP name servers
+nbns-servers            192.168.0.1     192.168.0.128
+
+# NetBIOS over datagram distribution servers
+nbdd-servers            192.168.0.1     192.168.0.128
+
+# NetBIOS node type (1 = B, 2 = P, 4 = M, 8 = H)
+netbios-nodetype        1
+
+# NetBIOS scope parameter
+netbios-scope           scope
+
+# X font servers
+x-font-servers          192.168.0.1     192.168.0.128
+
+# X display manager servers
+x-dm-servers            192.168.0.1     192.168.0.128
+

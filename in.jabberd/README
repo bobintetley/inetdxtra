@@ -1,0 +1,60 @@
+in.jabberd Jabber Server
+Copyright(c)2008, Robin Rawson-Tetley
+This application is covered by the terms of the GPLv2.
+
+in.jabberd is a tiny, inetd-based jabber server designed for devices with 
+limited resources. I used it to replace jabberd (which I couldn't get to 
+build for the ARM chip in my NSLU2 anyway). It uses just 84K per process
+when it is running.
+
+WARNING: in.jabberd is a long way from a complete Jabberd implementation.
+It has just enough to allow logging in, chatting and basic presence
+information with the following caveats:
+
+1. Only plaintext passwords and SHA-1 digest authentication are supported.
+
+2. All users on the server are instantly each other's buddy - subscriptions
+   are not supported.
+
+3. It *may* not be portable outside of Linux. It relies on 
+   O_NONBLOCK fd to allow non-blocking IO on stdin and flock(LOCK_EX)
+   to synchronise access to message files.
+
+4. I've tested with 2 different versions of pidgin and the gossip jabber
+   client so far.
+
+5. It uses the Linux-specific trick of overwriting argv[0] to update the
+   information for ps. If you don't want this (or your OS doesn't support
+   it), remove the -DUPDATEPS flag from the compile script.
+
+
+INSTALLATION:
+=================
+
+1. Compile in.jabberd:
+
+    make
+
+2. Copy to your path:
+
+   cp in.jabberd /usr/local/bin
+   cp man/in.jabberd.1.gz /usr/local/man
+
+3. Create /etc/in.jabberd.conf and add a linebreak separated list of people
+   who will use the server, along with their passwords.
+
+   This file is used to determine the friend roster as well as
+   who can log in. The space around the colon is important.
+
+   user1 : password1
+   user2 : password2
+   ...
+
+4. Add an inetd entry (this assumes Debian, and 
+   that the /usr/sbin/tcpd wrapper is available) to inetd.conf:
+
+   www stream tcp nowait nobody /usr/sbin/tcpd /usr/local/bin/in.jabberd
+
+5. Restart inetd
+
+For more info, run "man in.jabberd"

@@ -1,0 +1,143 @@
+HANDSHAKE:
+
+CLIENT:
+<?xml version='1.0'?>
+<stream:stream to='im.robsdomain' xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' version='1.0'>
+
+SERVER:
+<?xml version='1.0'?>
+<stream:stream xlmns:stream='http://etherx.jabber.org/streams' id='488C4143' xlmns='jabber:client' from='im.robsdomain'>
+
+LOGIN:
+
+CLIENT:
+<iq type='get' id='purpleeef3b735'>
+	<query xmlns='jabber:iq:auth'>
+		<username>bob</username>
+	</query>
+</iq>
+
+SERVER:
+<iq type='result' id='purpleeef3b735'>
+	<query xmlns='jabber:iq:auth'>
+		<username>bob</username>
+		<digest/>
+		<password/>
+		<resource/>
+	</query>
+</iq>
+
+CLIENT:
+<iq type='set' id='purpleeef3b735'>
+	<query xmlns='jabber:iq:auth'>
+		<username>bob</username>
+		<resource>Gaim</resource>
+		<digest>(long HEX)</digest>
+	</query>
+</iq>
+
+SERVER:
+<iq type='result' id='purpleef3b735' />
+
+
+DISCOVERY:
+
+CLIENT:
+<iq type='get' id='purpleef3b737' to='im.robsdomain'>
+<query xmlns='http://jabber.org/protocol/disco#items' />
+</iq>
+
+SERVER:
+<iq type='result' id='purpleeef3b737' to='bob@im.robsdomain/Gaim' from='im.robsdomain'>
+<query xmlns='http://jabber.org/protocol/disco#items' />
+</iq>
+
+CLIENT:
+<iq type='get' id='purpleef3b738' to='im.robsdomain'>
+<query xmlns='http://jabber.org/protocol/disco#info' />
+</iq>
+
+SERVER:
+<iq type='result' id='purpleef3b738' to='bob@im.robsdomain/Gaim' from='im.robsdomain'>
+<query xmlns='http://jabber.org/protocol/disco#info'>
+<identity category='services' type='jabber' name='Jabber 1.4 Server' />
+<feature var='http://jabber.org/protocol/disco#info'/>
+<feature var='http://jabber.org/protocol/disco#items'/>
+<feature var='urn:xmpp:ping'/>
+<feature var='vcard-temp'/>
+<feature var='jabber:iq:version'/>
+</query>
+</iq>
+
+RETRIEVE ROSTER AND VCARD:
+
+CLIENT:
+<iq type='get' id='purpleeef3b73a'>
+<vCard xmlns='vcard-temp' />
+</iq>
+
+SERVER:
+<iq type='result' id='purpleef3b73a' from='bob@im.robsdomain/Gaim'>
+<vCard xmlns='vcard-temp'/>
+</iq>
+
+
+CLIENT:
+<iq type='get' id='purpleef3b73b'>
+<query xmlns='jabber:iq:roster' />
+</iq>
+
+SERVER:
+<iq type='result' id='purpleef3b73b' from='bob@im.robsdomain/Gaim'>
+<query xmlns='jabber:iq:roster'>
+<item jid='polly@im.robsdomain' name='Polly' subscription='both'>
+<group>Polly</group>
+</item>
+</query>
+</iq>
+
+CLIENT:
+<presence>
+<priority>1</priority>
+<c xmlns='http://jabber.org/protocol/caps' node='http://pidgin.im/caps' ver='2.4.1' ext='moodn nickn tunen avatar' />
+</presence>
+
+SERVER:
+<presence from='polly@im.robsdomain/Gaim' to='bob@im.robsdomain'>
+<show>away</show>
+<status>
+<c xmlns='http://jabber.org/protocol/caps' node='http://pidgin.im/caps'
+ver='2.2.1' ext='moodn nickntunen avatar' />
+<x xmlns='jabber:x:delay' from='polly@im.robsdomain/Gaim' stamp='2008072T16:01:59' />
+</presence>
+
+SENDING A MESSAGE:
+
+CLIENT SEND
+<message type='chat' id='purpleef3b78e' to='bob@im.robsdomain'>
+<body>Some text!</body>
+<html xmlns='http://jabber.org/protocol/xhtml-im'>
+<body xmlns='http://www.w3.org/1999/xhtml'>Some text!</body>
+</html>
+</message>
+
+SERVER SEND TO RECIPIENT
+<message type='chat' id='purpleef3b78e' to='bob@im.robsdomain' from='bob@im.robsdomain/Gaim'>
+<body>Some text!</body>
+<html xmlns='http://jabber.org/protocol/xhtml-im'>
+<body xmlns='http://www.w3.org/1999/xhtml'>Some text!</body>
+</html>
+</message>
+
+
+CLOSING THE CONNECTION:
+
+CLIENT
+</stream:stream>
+
+PING response (xmpp:ping)
+<iq type='result' from='' to='' />
+
+DISCOVERY: urn:xmpp:ping, disco#info, vcard-temp
+
+

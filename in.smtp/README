@@ -1,0 +1,37 @@
+in.smtp
+Copyright(c)2008, Robin Rawson-Tetley
+This application is covered by the terms of the GPLv2.
+
+in.smtp is tiny, inetd-based mail relay for systems with
+limited resources. It will receive email via SMTP, then retransmit
+it using the system sendmail. 
+
+It is useful for having a single relay host on your network for
+transmitting mail. I use it on my NSLU2 (slug) to allow all the hosts
+on my network to relay outbound mail (via ssmtp).
+
+SECURITY:
+=================
+
+Host filtering should be done via the tcpd wrapper (or xinetd if that's
+what you're using).
+
+INSTALLATION:
+=================
+
+1. Compile in.smtp:
+
+   make
+
+2. Copy to your path:
+
+   cp in.smtp /usr/local/bin
+
+3. Add an inetd entry (this assumes Debian, and 
+   that the /usr/sbin/tcpd wrapper is available) to inetd.conf:
+
+   smtp stream tcp nowait nobody /usr/sbin/tcpd /usr/local/bin/in.smtp
+
+4. Restart inetd
+
+

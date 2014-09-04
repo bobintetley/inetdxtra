@@ -1,0 +1,46 @@
+in.proxy
+Copyright(c)2009, Robin Rawson-Tetley
+This application is covered by the terms of the GPLv2.
+
+in.proxy is a tiny, inetd-based http proxy designed for devices with 
+limited resources. It does not do caching and is intended as a relay. 
+It can handle CONNECT and can be used as an SSL proxy too.
+
+It is intended as a lightweight HTTP relay and can be combined with
+VPN software to offer a secure, anonymous browsing service.
+
+LOGGING:
+=================
+
+Makefile has a switch for logging. This is on by default.
+
+-DONELOG - Output a log file in /var/log/in.proxy.log in NCSA
+           combined format for each request. NOTE: You must run
+           in.proxy as a user with write permissions to 
+           /var/log if you use this option.
+
+
+You can use x/inetd and tcpd as with any other inetd service to 
+restrict access from hosts and to limit the number of in.proxy 
+processes.
+
+
+INSTALLATION:
+=================
+
+1. Compile in.proxy:
+
+   make
+
+2. Copy to your path:
+
+   cp in.proxy /usr/local/bin
+
+3. Add an inetd entry (this assumes Debian, with user www-data and 
+   that the /usr/sbin/tcpd wrapper is available) to inetd.conf:
+
+   webcache stream tcp nowait nobody /usr/sbin/tcpd /usr/local/bin/in.proxy
+
+4. Restart inetd
+
+Define the HTTP proxy in your browser as <slug host> port 8080

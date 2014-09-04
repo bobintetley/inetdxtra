@@ -1,0 +1,62 @@
+in.ctcs
+Copyright(c)2008, Robin Rawson-Tetley
+This application is covered by the terms of the GPLv2.
+
+in.ctcs is a tiny, inetd-based CTCS server for the enhanced
+CTorrent application.
+
+It can co-ordinate bandwidth between multiple ctorrent processes
+(it monitors the downloads and gives extra bandwidth to faster downloads
+from slower ones, if the slower ones pick up, it shares the bandwidth
+evenly) and it writes a simple 
+information file at an interval that can be used by other applications 
+to discover torrent progress. It also polls for an input file so other
+applications can send messages to a torrent process (in.ctcs.PID and
+in.ctcs.PID.in in your /tmp directory).
+
+A simple CGI UI is included in the www folder, copy it to the
+document root for your in.www webserver and update the "download_location"
+file with the path to where torrent files should be downloaded to.
+In addition to the ctorrent binary on your path, you will also need
+wget. The pages included allow you to monitor and stop downloads, as
+well as paste torrent links to start downloads off.
+
+in.ctcs will watch the download rate and if it falls below 5Kb/s, it
+will automatically try to get more peers from the tracker. If that
+fails and download speed falls below 2Kb/s, it will try to reconnect 
+to the tracker as a fresh client to obtain new peers. It will only try
+these steps once every 5 minutes where necessary.
+
+INSTALLATION:
+=================
+
+1. Compile in.ctcs:
+
+   make
+
+2. Copy to your path:
+
+   cp in.ctcs /usr/local/bin
+
+3. Add a services entry to /etc/services:
+   ctcs         2780/tcp
+
+4. Add an inetd entry (this assumes Debian, and 
+   that the /usr/sbin/tcpd wrapper is available) to inetd.conf:
+
+   ctcs stream tcp nowait nobody /usr/sbin/tcpd /usr/local/bin/in.ctcs 64 32
+
+   The three arguments are download limit in Kb and upload limit in Kb
+   If the connection is terminated, the in.ctcs.PID file will be removed.
+
+5. Restart inetd
+
+6. Edit /var/www/download_location and enter your desired download directory
+
+7. If you are using in.www, make a symlink from /your/download/directory
+   to download_dir in /var/www - this allows the "View Download Directory"
+   link to work in the web interface. For apache, you'll have to use an
+   Alias to map your download directory to http://yourhost/download_dir
+   instead (and make sure Indexes are on for that directory).
+
+   ln -sf /your/download/dir /var/www/download_dir

@@ -1,0 +1,29 @@
+in.mvp relay
+Public domain.
+
+in.mvp is an inetd-based version of the mvprelay.c file floating around
+the net. It's used for the later revision Hauppage MVP boxes.
+
+INSTALLATION:
+=================
+
+1. Compile in.mvp:
+
+   make
+
+2. Copy to your path:
+
+   cp in.mvp /usr/local/bin
+
+3. Add an inetd entry to inetd.conf:
+
+   mvprelay dgram udp wait nobody /usr/local/bin/in.mvp 192.168.0.1
+
+   (where 192.168.0.1 is the IP address of the local machine)
+
+4. Add a services entry to /etc/services:
+
+   mvprelay	16881/udp
+
+5. Restart inetd
+

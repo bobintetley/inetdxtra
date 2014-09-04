@@ -1,0 +1,26 @@
+
+# Note you must add a "16881/udp mvprelay" line to /etc/services
+mvprelay        dgram   udp     wait    nobody    /usr/local/sbin/in.mvp in.mvp 192.168.0.1
+
+# DNS
+domain          dgram   udp     wait    nobody  /usr/local/sbin/in.dns
+
+# DHCP
+bootps          dgram   udp     wait    nobody  /usr/local/sbin/in.dhcp in.dhcp eth0
+
+# WWW
+www             stream  tcp     nowait  nobody  /usr/sbin/tcpd /usr/local/sbin/in.www /var/www
+
+# HTTP proxy
+webcache        stream  tcp     nowait  nobody  /usr/sbin/tcpd /usr/local/sbin/in.proxy
+
+# Jabber
+xmpp-client     stream  tcp     nowait  nobody  /usr/sbin/tcpd /usr/local/sbin/in.jabberd
+
+# SMTP
+smtp            stream  tcp     nowait  nobody  /usr/sbin/tcpd /usr/local/sbin/in.smtp
+
+# Note you must add a "2780/tcp ctcs" line to /etc/services
+ctcs            stream  tcp     nowait  nobody  /usr/sbin/tcpd /usr/local/sbin/in.ctcs 64 32
+
+

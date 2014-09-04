@@ -1,0 +1,59 @@
+in.dns DNS Server
+Copyright(c)2009, Robin Rawson-Tetley
+This application is covered by the terms of the GPLv2.
+
+in.dns is a tiny, inetd-based DNS server designed for devices with
+limited resources. I used it to replace BIND on my slug as it
+does not run when requests aren't being made and my home network
+is pretty low traffic with only 10 or so connected devices.
+
+This is NOT a DNS server for the internet, it does not do recursive
+queries, zone transfers or any of that stuff. It has a simple
+configuration file (/etc/in.dns.conf) in the form:
+
+host1.domain1.          10.0.0.1
+host2.domain1.          10.0.0.2
+host1.domain2.          192.168.0.1
+host2.domain2.          192.168.0.2
+
+And uses these to only answer A and PTR queries (all that you need on most
+small networks).
+
+It will give a response for anything that appears in its
+configuration file and anything that doesn't fails fast, so your
+resolver should try the next DNS server (which will be your internet/ISP).
+
+Make sure your DHCP server issues your in.dns server first for your
+network and then any other DNS servers for the internet.
+
+NSS:
+=================
+
+in.dns has been patched to allow delegation to the local system NSS.
+This effectively allows you to use in.dns as a relay and recursive DNS
+server. To use this mode, you need to specify -DUSE_NSS in the Makefile
+CFLAGS in the directory above.
+
+Note that in this mode, in.dns will no longer resolve addresses in the
+in.dns.conf file - all queries are delegated to the NSS. This is useful
+if you are using something like nss-ldap (or any other name service) and 
+want to relay queries from a different subnet.
+
+INSTALLATION:
+=================
+
+1. Compile in.dns:
+
+    make
+
+2. Copy to your path:
+
+   cp in.dns /usr/local/bin
+
+3. Create /etc/in.dns.conf and add your hosts.
+
+4. Add an inetd entry to inetd.conf:
+
+   domain dgram udp wait nobody /usr/local/bin/in.dns
+
+5. Restart inetd

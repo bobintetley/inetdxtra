@@ -1,0 +1,64 @@
+20140904
+========
+
+*. in.jabberd Support for empty privacy lists (fixes empathy)
+*. in.jabberd Fix delete_buffer() so logged out users are shown correctly
+*. in.www     Needs <arpa/inet.h> include to prevent inet_ntoa segfault
+
+20100803
+========
+
+*. in.jabberd Use type attribute of presence tag instead of status
+              (fixes things with newer libpurple)
+*. in.dhcp    Added bind address parameter to control which interface
+              reply packets are sent on
+*. in.jabberd Fixed infinite loop bug in get_tag
+*. in.proxy   Support for CONNECT
+*. in.www     URL decoding
+
+20090708
+========
+
+*. in.proxy HTTP proxy server
+*. in.ctcs can raise the dllimit on faster downloads if slower ones 
+           aren't using their bandwidth. If the slower ones pick
+           up, bandwidth is equalised again.
+*. in.ctcs links to view and access the download directory
+           ctorrentwget uses seconds in generated name
+
+[ patches from Robert Gerlach ]
+*. in.dns allow use of NSS to become a recursive nameserver
+*. in.dns fixed malformed packet error with reverse lookups
+*. in.dns use inet_aton instead of hand-rolled IP parser
+*. in.dhcp use NSS resolver to discover ip for MAC addresses
+
+20081113
+========
+
+*. in.ctcs enhanced ctorrent server
+
+20081103
+========
+
+*. in.smtp relay server
+*. Uses syslog daemon level for correct logging categorisation
+*. Optimised build for size/speed
+*. in.jabberd uses ONELOG to output login/out events
+*. in.jabberd uses 16Kb buffers to allow for link pasting
+*. in.mvp logging cleaned up, uses ONELOG like the other services
+   correctly now.
+
+20080912
+========
+
+*. in.dhcp skips bad host addresses (end in 0 or 255) when
+   assigning from a pool
+*. in.www uses the ONELOG switch to control output of a log
+   file in /var/log/in.www.log in NCSA combined format
+*. in.www detects Location: responses from CGI and sends
+   a 302 correctly now
+*. in.www includes all headers from CGI output
+*. (all) fixed getpeername calls to clear sockaddr_in first to
+   prevent uninit memory garbage interfering with IP addresses
+*. in.www changes cwd to CGI directory before execution
+

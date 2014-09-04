@@ -1,0 +1,43 @@
+in.dhcp tiny DHCP server
+Copyright(c)2009, Robin Rawson-Tetley
+This application is covered by the terms of the GPLv2.
+
+in.dhcp is a tiny, inetd-based DHCP server designed for devices with
+limited resources. I used it to replace ISC-DHCP on my slug as it
+does not run when requests aren't being made and my home network
+is pretty low traffic with only 10 or so connected devices (in.dhcp
+is so light that it will scale MUCH higher).
+
+It supports ipv4, pools, static leases and all the DHCP options. I've
+tested with the ISC DHCP client, my Wii, udhcp and the Hauppage
+MVP H series devices (all work, obviously).
+
+In addition, if -DUSE_NSS is set, it will use the system NSS to discover
+hostname and IP addresses for a given MAC address (see ether_ntohost)
+
+INSTALLATION:
+=================
+
+1. Compile in.dhcp:
+
+    make
+
+    (you can also edit this file and use the line below "exit 0" to compile
+    in.dhcp with debug information sent to syslog and response packets dumped
+    to a file in /tmp).
+
+2. Copy to your path:
+
+   cp in.dhcp /usr/local/bin
+
+3. Create /etc/in.dhcp.conf.eth0 (or whatever interface you are supplying
+   addresses for) and add your hosts (see in.dhcp.conf.sample for the
+   full range of options - ALL standard DHCP options are supported)
+
+4. Add an inetd entry to inetd.conf (note the second variant, you can include
+   a bind address to determine which interface reply packets will be sent to).
+
+   bootps dgram udp wait nobody /usr/local/bin/in.dhcp in.dhcp eth0
+   bootps dgram udp wait nobody /usr/local/bin/in.dhcp in.dhcp eth0 192.168.0.1
+
+5. Restart inetd
